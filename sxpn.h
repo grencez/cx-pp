@@ -206,14 +206,14 @@ qual_inline
 lose_Sxpn (Sxpn* sx)
 {
     ujint i;
-    for (i = begidx_LgTable (&sx->cells);
+    {i = begidx_LgTable (&sx->cells);for (;
          i < Max_ujint;
          i = nextidx_LgTable (&sx->cells, i))
     {
         Cons* a = (Cons*) elt_LgTable (&sx->cells, i);
         if (a->car.kind != Cons_Cons)
             lose_ConsAtom (&a->car, 0);
-    }
+    }}
     lose_LgTable (&sx->cells);
 }
 

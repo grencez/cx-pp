@@ -78,8 +78,8 @@ qual_inline
 lose_LgTable (LgTable* t)
 {
     uint i;
-    for (i = 0; i < t->allocs.sz; ++i)
-        lose_LgTableAlloc (&t->allocs.s[i]);
+    {i = 0;for (; i < t->allocs.sz; ++i)
+        lose_LgTableAlloc (&t->allocs.s[i]);}
     LoseTable( t->allocs );
     LoseTable( t->intls );
 }
@@ -132,13 +132,13 @@ ins_LgTableIntl (TableT(LgTableIntl)* intls, const void* mem)
 {
     ujintlg i;
     GrowTable( *intls, 1 );
-    for (i = intls->sz-1; i > 0; --i)
+    {i = intls->sz-1;for (; i > 0; --i)
     {
         if ((size_t) mem < (size_t) intls->s[i-1].mem)
             intls->s[i] = intls->s[i-1];
         else
             break;
-    }
+    }}
     intls->s[i].mem = mem;
     intls->s[i].lgsz = (intls->sz == 1 ? 1 : intls->sz-1);
 }
@@ -149,14 +149,14 @@ del_LgTableIntl (TableT(LgTableIntl)* intls)
 {
     ujintlg i = 0, j;
     /* Claim2( intls->sz ,>, 2 ); */
-    for (j = 0; j < intls->sz; ++j)
+    {j = 0;for (; j < intls->sz; ++j)
     {
         if (intls->s[j].lgsz != intls->sz-1)
         {
             intls->s[i] = intls->s[j];
             ++ i;
         }
-    }
+    }}
     MPopTable( *intls, 1 );
     /* Claim2( i, ==, intls->sz ); */
 }
