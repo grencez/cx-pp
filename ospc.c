@@ -24,9 +24,9 @@ lose_OSPc (OSPc* ospc)
     lose_FileB (&ospc->xfb);
     lose_FileB (&ospc->ofb);
     lose_AlphaTab (&ospc->cmd);
-    { BLoop( i, ospc->args.sz )
+    {unsigned int i =0;for (;i<( ospc->args.sz);++i){
         lose_AlphaTab (&ospc->args.s[i]);
-    } BLose()
+    }}
     LoseTable( ospc->args );
 }
 
@@ -89,9 +89,9 @@ spawn_OSPc (OSPc* ospc)
     PushTable( argv, dup_cstr ("--") );
     nfrees = argv.sz;
 
-    { BLoop( i, ospc->args.sz )
+    {unsigned int i =0;for (;i<( ospc->args.sz);++i){
         PushTable( argv, cstr_AlphaTab (&ospc->args.s[i]) );
-    } BLose()
+    }}
 
     PushTable( argv, 0 );
 
@@ -114,9 +114,9 @@ spawn_OSPc (OSPc* ospc)
 
     BLose();
 
-    { BLoop( i, nfrees )
+    {unsigned int i =0;for (;i<( nfrees);++i){
         free (argv.s[i]);
-    } BLose()
+    }}
     LoseTable( argv );
 
     return good;

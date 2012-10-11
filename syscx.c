@@ -157,14 +157,14 @@ push_losefn1_sysCx (void (*f) (void*), void* x)
     void
 lose_sysCx ()
 {
-    { BLoop( i, LoseFns.sz )
+    {unsigned int i =0;for (;i<( LoseFns.sz);++i){
             /* Do in reverse because it's a stack.*/
         DeclEltTable( HookFn, hook, LoseFns, LoseFns.sz-i-1 );
         if (hook->x)
             ((void (*) (void*)) hook->f) (hook->x);
         else
             hook->f ();
-    } BLose()
+    }}
     LoseTable( LoseFns );
 
     lose_FileB (stdin_FileB ());
