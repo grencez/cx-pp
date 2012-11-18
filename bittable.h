@@ -49,8 +49,8 @@ qual_inline
 msb_ujint (ujint x)
 {
     ujintlg i;
-    {i = 1;for (; i < NBits_ujint; i *= 2)
-        x |= (x >> i);}
+    for (i = 1; i < NBits_ujint; i *= 2)
+        x |= (x >> i);
     return (x & ~(x >> 1));
 }
 
@@ -77,7 +77,7 @@ lg_ujint (ujint x)
 {
     ujintlg i;
     ujintlg n = 0;
-    {i = msb_ujint (NBits_ujint-1);for (; i > 0; i /= 2)
+    for (i = msb_ujint (NBits_ujint-1); i > 0; i /= 2)
     {
         ujint y = (x >> i);
         n *= 2;
@@ -86,7 +86,7 @@ lg_ujint (ujint x)
             n += 1;
             x = y;
         }
-    }}
+    }
     return n;
 }
 

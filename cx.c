@@ -550,8 +550,8 @@ parse_escaped (XFileB* xf, AlphaTab* t, char delim)
 count_newlines (const char* s)
 {
     ujint n = 0;
-    {s = strchr (s, '\n');for (; s;  s = strchr (&s[1], '\n'))
-        ++ n;}
+    for (s = strchr (s, '\n'); s;  s = strchr (&s[1], '\n'))
+        ++ n;
     return n;
 }
 
@@ -847,25 +847,25 @@ lex_AST (XFileB* xf, ASTree* t)
     AST*
 next_semicolon_or_braces_AST (AST* ast)
 {
-    {ast = cdr_of_AST (ast);for (;
+    for (ast = cdr_of_AST (ast);
          ast;
          ast = cdr_of_AST (ast))
     {
         if (ast->kind == Lexical_Semicolon)  return ast;
         if (ast->kind == Syntax_Braces)  return ast;
-    }}
+    }
     return 0;
 }
 
     AST*
 next_parens (AST* ast)
 {
-    {ast = cdr_of_AST (ast);for (;
+    for (ast = cdr_of_AST (ast);
          ast;
          ast = cdr_of_AST (ast))
     {
         if (ast->kind == Syntax_Parens)  return ast;
-    }}
+    }
     return 0;
 }
 
@@ -1171,7 +1171,7 @@ build_stmts_AST (Cons** ast_p, ASTree* t)
     AST* ast = AST_of_Cons (*ast_p);
     Cons** p = ast_p;
 
-    {;for (; ast; ast = cdr_of_AST (ast))
+    for (; ast; ast = cdr_of_AST (ast))
     {
         if (ast->kind == Syntax_Braces)
         {
@@ -1256,7 +1256,20 @@ build_stmts_AST (Cons** ast_p, ASTree* t)
             break;
         }
         p = &ast->cons->cdr;
-    }}
+    }
+}
+
+    bool
+declaration_ck (AST* a)
+{
+    uint n = 0;
+    while (a && a->kind != Lexical_Assign)
+    {
+        if (a->kind != Syntax_WS)  ++n;
+        a = cdr_of_AST (a);
+    }
+
+    return (n > 1);
 }
 
     void
@@ -1292,7 +1305,7 @@ xfrm_stmts_AST (Cons** ast_p, ASTree* t)
             Claim( d_parens );
             d_stmt = cdar_of_AST (d_parens);
 
-            if (d_stmt)
+            if (d_stmt && declaration_ck (cdar_of_AST (d_stmt)))
             {
                 AST* d_braces = take1_ASTree (t, Syntax_Braces);
                 AST* d_stmt1 = take1_ASTree (t, Syntax_Stmt);
