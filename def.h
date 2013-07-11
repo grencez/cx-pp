@@ -10,6 +10,7 @@
 
 typedef int Bit;
 enum Trit { Nil = 0, Yes = 1, May = 2 };
+typedef int Signum;
 typedef enum Trit Trit;
 /** Type of function which compares two objects.
  * Return values should conform to:
@@ -46,6 +47,10 @@ typedef struct uint2 uint2;
 typedef struct ujint2 ujint2;
 struct uint2 { uint s[2]; };
 struct ujint2 { ujint s[2]; };
+
+#ifndef uint32
+#define uint32 uint
+#endif
 
 #if 0
 typedef double real;
