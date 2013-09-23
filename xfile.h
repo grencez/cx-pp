@@ -14,12 +14,13 @@ struct XFile
   TableT(byte) buf;
   ujint off;
   ujint flushsz;
+  const XFileVT* vt;
   XFileCtx* ctx;
 };
 
 struct XFileCtx
 {
-  const XFileVT* vt;
+  byte nothing;
 };
 
 
@@ -55,6 +56,8 @@ char*
 tods_XFile (XFile* xf, const char* delims);
 char*
 nextok_XFile (XFile* xf, char* ret_match, const char* delims);
+void
+replace_delim_XFile (XFile* xf, char delim);
 void
 inject_XFile (XFile* in, XFile* src, const char* delim);
 void
@@ -94,6 +97,7 @@ init_XFile (XFile* xf)
   xf->buf.sz = 1;
   xf->off = 0;
   xf->flushsz = 0;
+  xf->vt = 0;
   xf->ctx = 0;
 }
 
@@ -135,6 +139,11 @@ cstr1_XFile (XFile* f, ujint off)
 
 qual_inline
   char*
+cstr_of_XFile (XFile* xf)
+{ return cstr1_XFile (xf, xf->off); }
+
+qual_inline
+  char*
 cstr_XFile (XFile* xf)
 { return cstr1_XFile (xf, xf->off); }
 
@@ -146,6 +155,15 @@ AlphaTab_XFile (XFile* xf, ujint off)
   t.s = (char*) &xf->buf.s[off];
   t.sz = (xf->off - off) / sizeof(char);
   return t;
+}
+
+qual_inline
+  void
+init_XFile_olay_AlphaTab (XFile* xf, AlphaTab* ts)
+{
+  init_XFile (xf);
+  xf->buf.s = (byte*) cstr_of_AlphaTab (ts);
+  xf->buf.sz = ts->sz;
 }
 
 #endif
