@@ -610,7 +610,7 @@ check_delete_directive (AlphaTab* txt, CxExecOpt* exec_opt)
 
   
   if (delete_it) {
-    uint nlines = 1 + count_newlines (cstr_of_AlphaTab (txt));
+    uint nlines = 1 + count_newlines (ccstr_of_AlphaTab (txt));
     flush_AlphaTab (txt);
     {unsigned int i =0;for (;i<( nlines);++i)
       cat_cstr_AlphaTab (txt, "\n");}
