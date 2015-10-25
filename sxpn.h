@@ -123,7 +123,7 @@ qual_inline
   Sxpn
 dflt_Sxpn ()
 {
-   Sxpn sx=DEFAULT_Sxpn;
+  Sxpn sx = DEFAULT_Sxpn;
   return sx;
 }
 

@@ -127,7 +127,7 @@ qual_inline
   BitTable
 dflt_BitTable ()
 {
-   BitTable bt=DEFAULT_BitTable;
+  BitTable bt = DEFAULT_BitTable;
   return bt;
 }
 
@@ -135,7 +135,7 @@ qual_inline
   BitTable
 dflt2_BitTable (ujint nbits, BitTableEl* s)
 {
-   BitTable bt=DEFAULT_BitTable;
+  BitTable bt = DEFAULT_BitTable;
   bt.s = s;
   bt.sz = nbits;
   return bt;
@@ -155,7 +155,7 @@ qual_inline
 cons1_BitTable (ujint n)
 {
   const ujint nblocks = CeilQuot( n, NBits_BitTableEl );
-   BitTable bt=DEFAULT_BitTable;
+  BitTable bt = DEFAULT_BitTable;
   GrowTable( bt, nblocks );
   bt.sz = n;
   return bt;
